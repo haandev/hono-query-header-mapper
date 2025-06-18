@@ -1,0 +1,24 @@
+{
+  "name": "hono-query-header-mapper",
+  "version": "1.0.0",
+  "type": "module",
+  "files": [ "dist" ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haandev/hono-query-header-mapper"
+  },
+  "keywords": [ "hono", "middleware" ],
+  "author": "haandev",
+  "license": "MIT",
+  "homepage": "https://github.com/haandev/hono-query-header-mapper",
+  "description": "Hono middleware for mapping URL query parameters into HTTP headers",
+  "module": "./dist/hono-query-header-mapper.js",
+  "types": "./dist/hono-query-header-mapper.d.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  }
+} 
