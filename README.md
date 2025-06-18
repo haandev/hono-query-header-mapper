@@ -25,13 +25,13 @@ Import the middleware and apply it before any header-based handlers (e.g., JWT):
 ```ts
 import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
-import { extendHeadersWithQuery } from 'hono-query-header-mapper'
+import { queryHeaderMapper } from 'hono-query-header-mapper'
 
 const app = new Hono()
 
 app.use(
   '/protected/*',
-  extendHeadersWithQuery('accessToken', 'Authorization', value => `Bearer ${value}`),
+  queryHeaderMapper('accessToken', 'Authorization', value => `Bearer ${value}`),
   jwt({ secret: 'YOUR_SECRET_KEY' })
 )
 
@@ -44,7 +44,7 @@ app.fire()
 
 ## 📖 API Reference
 
-### `extendHeadersWithQuery(queryParam: string, headerName: string, transform?: (value: string) => string)`
+### `queryHeaderMapper(queryParam: string, headerName: string, transform?: (value: string) => string)`
 
 - \`\`: The name of the URL query parameter to read.
 - \`\`: The HTTP header name to set on the request.
@@ -61,7 +61,7 @@ When using presigned URLs (e.g., AWS S3) you cannot set headers on the client. I
 ```ts
 app.get(
   '/download',
-  extendHeadersWithQuery('token', 'Authorization', t => `Bearer ${t}`),
+  queryHeaderMapper('token', 'Authorization', t => `Bearer ${t}`),
   downloadHandler
 )
 ```
@@ -73,7 +73,7 @@ The `EventSource` API does not allow custom headers. Pass session credentials as
 ```ts
 app.get(
   '/events',
-  extendHeadersWithQuery('sessionId', 'X-Session-Id'),
+  queryHeaderMapper('sessionId', 'X-Session-Id'),
   eventStreamHandler
 )
 ```
@@ -85,7 +85,7 @@ Use the middleware without a transformer to forward a raw signature or token:
 ```ts
 app.post(
   '/webhook',
-  extendHeadersWithQuery('sig', 'X-Signature'),
+  queryHeaderMapper('sig', 'X-Signature'),
   webhookHandler
 )
 ```
@@ -96,7 +96,7 @@ You can also apply it within a route group:
 
 ```ts
 app.group('/api', api => {
-  api.use(extendHeadersWithQuery('apiKey', 'X-Api-Key'))
+  api.use(queryHeaderMapper('apiKey', 'X-Api-Key'))
   api.use(jwt({ secret: '...' }))
   api.get('/data', dataHandler)
 })
